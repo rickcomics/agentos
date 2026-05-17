@@ -5,6 +5,9 @@ from system.notion import (
     get_all_items,
     write_qa_report
 )
+from system.config import load_env
+
+
 
 class Agent:
     def __init__(self):
@@ -14,8 +17,10 @@ class Agent:
         with open(os.path.join(base, "config.json"), "r", encoding="utf-8") as f:
             cfg = json.load(f)
 
+        env = load_env()
         self.rhythm = cfg.get("rhythm", 600)
-        self.qa_db = cfg.get("qa_database", "QA_DB")
+        #self.qa_db = cfg.get("qa_database", "QA_DB")
+        self.qa_db = env["QA_DB"]
         self.checks = cfg.get("checks", {})
 
         # Загружаем состояние

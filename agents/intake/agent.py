@@ -1,8 +1,9 @@
 import os
 import json
 from system.imap import fetch_messages
-from system.notion import write_page
 from datetime import datetime, timezone
+from system.notion import create_item
+
 
 class Agent:
     def __init__(self):
@@ -53,15 +54,16 @@ class Agent:
             data = {
                 "sender": msg.get("from"),
                 "subject": msg.get("subject"),
-                "body": msg.get("body"),
+                "body": (msg.get("body") or "")[:2000],
                 "received_at": datetime.now(timezone.utc).isoformat(),
                 "uid": uid
             }
 
-            write_page(data)
+            create_item(data)
 
             # Обновляем состояние
             self.state["last_uid"] = uid
             self.save_state()
 
         print("[Intake] Обработка завершена.")
+

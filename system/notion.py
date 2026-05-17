@@ -449,3 +449,43 @@ def mark_integrated(item_id):
 
     return response.json()
 
+def create_item(data):
+    env = load_env()
+
+    url = "https://api.notion.com/v1/pages"
+    headers = {
+        "Authorization": f"Bearer {env['NOTION_TOKEN']}",
+        "Content-Type": "application/json",
+        "Notion-Version": NOTION_VERSION
+    }
+
+    payload = {
+        "parent": {"database_id": env["NOTION_DATABASE"]},
+        "properties": {
+            "Email ID": {
+                "title": [{"text": {"content": str(data["uid"])}}]
+            },
+            "Sender": {
+                "rich_text": [{"text": {"content": data["sender"] or ""}}]
+            },
+            "Subject of the letter": {
+                "rich_text": [{"text": {"content": data["subject"] or ""}}]
+            },
+            "Summary": {
+                "rich_text": [{"text": {"content": data["body"] or ""}}]
+            },
+            "Time of receipt": {
+                "date": {"start": data["received_at"]}
+            },
+            "Processing status": {
+                "select": {"name": "New"}
+            }
+        }
+    }
+
+    response = requests.post(url, headers=headers, json=payload)
+
+    if response.status_code != 200:
+        print("[Notion] Ошибка создания записи:", response.text)
+
+    return response.json()
