@@ -1,0 +1,15 @@
+{
+    "rhythm": 300,
+    "integrations": {
+        "webhook": {
+            "enabled": true,
+            "url": "https://example.com/webhook"
+        },
+        "crm": {
+            "enabled": false,
+            "api_url": "",
+            "api_key": ""
+        }
+    },
+    "sync_status": "Done"
+}

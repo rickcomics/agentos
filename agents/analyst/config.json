@@ -1,0 +1,11 @@
+{
+    "rhythm": 1800,
+    "report_database": "ANALYTICS_DB",
+    "metrics": [
+        "new_count",
+        "routed_count",
+        "done_count",
+        "replied_count",
+        "archived_count"
+    ]
+}

@@ -1,0 +1,14 @@
+{
+    "rhythm": 30,
+    "routes": {
+        "finance": "worker_finance",
+        "tech": "worker_tech",
+        "personal": "worker_personal",
+        "other": "worker_general"
+    },
+    "keywords": {
+        "finance": ["invoice", "payment", "bill", "оплата", "счёт"],
+        "tech": ["error", "bug", "issue", "тех", "ошибка"],
+        "personal": ["привет", "лично", "hello", "hi"]
+    }
+}

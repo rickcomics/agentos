@@ -1,0 +1,10 @@
+{
+    "rhythm": 600,
+    "qa_database": "QA_DB",
+    "checks": {
+        "missing_route": true,
+        "missing_category": true,
+        "empty_result": true,
+        "reply_missing": true
+    }
+}
