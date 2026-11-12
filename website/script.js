@@ -1,30 +1,38 @@
-const API_URL = "https://your-api-domain.com";
-const API_KEY = "your-api-key";
+import os
+import subprocess
+import sys
+from pathlib import Path
 
-async function loadStatus() {
-    const res = await fetch(`${API_URL}/status`, {
-        headers: { "Authorization": `Bearer ${API_KEY}` }
-    });
+from fastapi import APIRouter
 
-    const data = await res.json();
-    document.getElementById("system-status").innerText =
-        `Система: ${data.system}, агенты: ${data.agents}`;
-}
+router = APIRouter()
 
-async function sendRequest() {
-    const email = document.getElementById("email").value;
-    const message = document.getElementById("message").value;
 
-    const res = await fetch(`${API_URL}/data/new`, {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer ${API_KEY}`,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ email, message })
-    });
+def repo_root():
+    return str(Path(__file__).resolve().parents[2])
 
-    document.getElementById("response").innerText = "Заявка отправлена!";
-}
 
-loadStatus();
+@router.post("/start")
+async def start_agents():
+    root = repo_root()
+    subprocess.Popen(
+        [sys.executable, "runtime.py"],
+        cwd=root,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        start_new_session=True,
+    )
+    return {"status": "started"}
+
+
+@router.post("/stop")
+async def stop_agents():
+    root = repo_root()
+    subprocess.Popen(
+        [sys.executable, "shutdown.py"],
+        cwd=root,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        start_new_session=True,
+    )
+    return {"status": "stopped"}
